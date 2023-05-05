@@ -1,75 +1,47 @@
 package com.employee.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
+import com.employee.demo.model.Employee;
+import com.employee.demo.repository.HourlyEmployeeRepository;
+import com.employee.demo.repository.ManagerRepository;
+import com.employee.demo.repository.SalariedEmployeeRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.employee.demo.PageSession;
-import com.employee.demo.model.Employee;
-import com.employee.demo.service.EmployeeService;
 
 @Controller
 public class EmployeeController {
+    private List<Employee> employees;
 
-	@Autowired
-	EmployeeService service;
+    @RequestMapping("home")
+    public String welcome(Model model) {
+        employees = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            employees.add(new HourlyEmployeeRepository());
+            employees.add(new SalariedEmployeeRepository());
+            employees.add(new ManagerRepository());
+        }
+        
+        model.addAttribute("employees", employees);
+        return "home";
+    }
 
-	
-	@RequestMapping("home")
-	public String welcome(Model model) {
-		
-		model.addAttribute("employees", service.getEmployees());
-		
-		return "home";
-	}
-	
-	@PostMapping("updateHourlyEmployee")
-	public String updateHourlyEmployee(
-			Integer id,
-			Integer workedDays,
-			Integer noOfVacationDays,
-			String action) {
-		
-		if(action.equals("updateWorkedDays"))
-			service.updateHourlyEmployeeWorkedVacationDays(id, workedDays);
-		else
-			service.updateHourlyEmployeeWorkedVacationDays(id,noOfVacationDays);
-
-		return "redirect:home";
-	}
-	
-	@PostMapping("updateSalariedEmployee")
-	public String updateSalariedEmployee(
-			Integer id,
-			Integer workedDays,
-			Integer noOfVacationDays,
-			String action) {
-		
-		if(action.equals("updateWorkedDays"))
-			service.updateSalariedEmployeeVacationDays(id, workedDays);
-		else
-			service.updateSalariedEmployeeVacationDays(id,noOfVacationDays);
-
-		return "redirect:home";
-	}
-	
-	@PostMapping("updateManagerEmployee")
-	public String updateManagersEmployee(
-			Integer id,
-			Integer workedDays,
-			Integer noOfVacationDays,
-			String action) {
-		
-		if(action.equals("updateWorkedDays"))
-			service.updateManagersEmployeeVacationDays(id, workedDays);
-		else
-			service.updateManagersEmployeeVacationDays(id,noOfVacationDays);
-
-		return "redirect:home";
-	}
-	
+    @PostMapping("updateEmployee")
+    public String updateEmployee(int workedDays, double vacationDays, int employeeIndex,
+    		String action ) {
+        Employee employee = employees.get(employeeIndex);
+        if(action.equals("updateWorkedDays")) {
+        	employee.work(workedDays);
+        } else {
+        	employee.takeVacation(vacationDays);
+        }
+        
+        
+        return "redirect:home";
+    }
 }

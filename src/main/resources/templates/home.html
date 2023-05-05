@@ -10,7 +10,7 @@
     <h2>Employee Management Home</h2>
     
     <hr class="solid">    
-    <p>Hourly Employees are listed below.</p>
+    <p>Employees are listed below.</p>
     <br>    
     <div class="bar">
     	<span>Id</span>
@@ -18,49 +18,11 @@
     	<span>No of Vacation Days Accumulated</span>
     </div>
     <hr class="solid">    
-    <div th:each="employee : ${employees}" class="container">
-   		<form action="updateHourlyEmployee" method="post">
-   			<input type="text" name="id" th:value="${employee.id}">
-   			<input type="text" name="Worked Days" th:value="${employee.workedDays}">
-   			<input type="text" name="No of Vacation Days Accumulated" th:value="${employee.noOfVacationDaysAccumulated}">
-   			<button type="submit" name="action" value="updateWorkedDays">Update Worked Days</button>
-   			<button type="submit" name="action" value="updateVacationDays">Update Vacation Days</button>
-   		</form>
-    </div>
-    
-    <hr class="solid">    
-    <p>Salaried Employees are listed below.</p>
-    <br>    
-    <div class="bar">
-    	<span>Id</span>
-    	<span>Worked Days</span>
-    	<span>No of Vacation Days Accumulated</span>
-    </div>    
-    <hr class="solid">    
-    <div th:each="employee : ${employees}" class="container">
-   		<form action="updateSalariedEmployee" method="post">
-   			<input type="text" name="id" th:value="${employee.id}">
-   			<input type="text" name="Worked Days" th:value="${employee.workedDays}">
-   			<input type="text" name="No of Vacation Days Accumulated" th:value="${employee.noOfVacationDaysAccumulated}">
-   			<button type="submit" name="action" value="updateWorkedDays">Update Worked Days</button>
-   			<button type="submit" name="action" value="updateVacationDays">Update Vacation Days</button>
-   		</form>
-    </div>
-    
-    <hr class="solid">    
-    <p>Manager Employees are listed below.</p>
-    <br>    
-    <div class="bar">
-    	<span>Id</span>
-    	<span>Worked Days</span>
-    	<span>No of Vacation Days Accumulated</span>
-    </div>    
-    <hr class="solid">    
-    <div th:each="employee : ${employees}" class="container">
-   		<form action="updateManagerEmployee" method="post">
-   			<input type="text" name="id" th:value="${employee.id}">
-   			<input type="text" name="Worked Days" th:value="${employee.workedDays}">
-   			<input type="text" name="No of Vacation Days Accumulated" th:value="${employee.noOfVacationDaysAccumulated}">
+    <div th:each="employee,iterStat : ${employees}" class="container">
+   		<form action="updateEmployee" method="post">
+   			<input type="text" name="employeeIndex" th:value="${employee[iterStat.index]}">
+   			<input type="text" name="workedDays" th:value="">
+   			<input type="text" name="vacationDays" th:value="${employee.vacationDays}">
    			<button type="submit" name="action" value="updateWorkedDays">Update Worked Days</button>
    			<button type="submit" name="action" value="updateVacationDays">Update Vacation Days</button>
    		</form>

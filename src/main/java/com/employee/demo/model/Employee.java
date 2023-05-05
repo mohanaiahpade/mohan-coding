@@ -1,38 +1,27 @@
 package com.employee.demo.model;
 
-public class Employee {
-	
-	private float noOfVacationDaysAccumulated;
-    private int id;
-    private int workedDays;
-    
-    public Employee(float noOfVacationDaysAccumulated,int workedDays,int empId) {
-    	this.noOfVacationDaysAccumulated = noOfVacationDaysAccumulated;
-    	this.id = empId;
+public abstract class Employee {
+    private double vacationDays;
+
+    public Employee() {
+        this.vacationDays = 0;
     }
 
-	public float getNoOfVacationDaysAccumulated() {
-		return noOfVacationDaysAccumulated;
-	}
+    public double getVacationDays() {
+        return vacationDays;
+    }
 
-	public void setNoOfVacationDaysAccumulated(float noOfVacationDaysAccumulated) {
-		this.noOfVacationDaysAccumulated = noOfVacationDaysAccumulated;
-	}
-	
-	public int getId() {
-		return id;
-	}
+    protected void setVacationDays(double vacationDays) {
+        this.vacationDays = vacationDays;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getWorkedDays() {
-		return workedDays;
-	}
+    public abstract void work(int days);
 
-	public void setWorkedDays(int workedDays) {
-		this.workedDays = workedDays;
-	}
-	
+    public void takeVacation(double days) {
+        if (days <= vacationDays) {
+            vacationDays -= days;
+        } else {
+            throw new IllegalArgumentException("Not enough vacation days available.");
+        }
+    }
 }
